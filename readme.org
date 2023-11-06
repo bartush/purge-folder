@@ -1,0 +1,1 @@
+* `purge-folder' Emacs command, recursively deletes selected file types in selected folder
