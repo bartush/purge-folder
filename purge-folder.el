@@ -192,3 +192,5 @@
 				    starting-folder))
 	  (purge-folder-body starting-folder selection))))))
 
+
+(provide 'purge-folder)

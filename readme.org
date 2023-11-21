@@ -2,9 +2,7 @@
 #+author: vvbrick
 
 - File types selection
-  #+ATTR_ORG: :width 732
 [[file:assets/menu.png]]
  - Command setting stored as custom variables
-   #+ATTR_ORG: :width 790
 [[file:assets/settings.png]]
 
