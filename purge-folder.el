@@ -25,19 +25,20 @@
    recursively begining from folder `starting-path'"
   (let* ((counter 0)
 	 (purge (lambda (starting-path extensions-list)
-		  (let ((files-list (directory-files starting-path nil directory-files-no-dot-files-regexp)))
-		    (dolist (item files-list)
-		      (let ((full-path (file-name-concat starting-path item)))
-			(if (file-directory-p full-path)
-			    (when (not (file-symlink-p full-path))
-			      (funcall purge full-path extensions-list))
-			  (when (member  (file-name-extension item) extensions-list)
-			    (princ (format "Deleting file: %s\n" full-path))
-			    (condition-case ex
-				(progn
-				  (delete-file full-path)
-				  (setq counter (1+ counter)))
-			      (error (princ (format "%s !Error deleting file: %s" ex full-path))))))))))))
+		  (when (file-accessible-directory-p starting-path)
+		    (let ((files-list (directory-files starting-path nil directory-files-no-dot-files-regexp)))
+		      (dolist (item files-list)
+			(let ((full-path (file-name-concat starting-path item)))
+			  (if (file-directory-p full-path)
+			      (when (not (file-symlink-p full-path))
+				(funcall purge full-path extensions-list))
+			    (when (member  (file-name-extension item) extensions-list)
+			      (princ (format "Deleting file: %s\n" full-path))
+			      (condition-case ex
+				  (progn
+				    (delete-file full-path)
+				    (setq counter (1+ counter)))
+				(error (princ (format "%s !Error deleting file: %s" ex full-path)))))))))))))
     (princ (format "Purge folder %s...\n" starting-path))
     (funcall purge starting-path extensions-list)
     (princ (format "total %d files deleted...\n" counter))
